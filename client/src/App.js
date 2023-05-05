@@ -14,12 +14,12 @@ function App() {
 
   const GetTodos = () => {
     fetch(API_BASE + "/todos")
-      .then((res) => res.json())
-      .then((data) => setTodos(data))
-      .catch((err) => console.err("Error: ", err));
+      .then(res=> res.json())
+      .then(data => setTodos(data))
+      .catch((err) => console.error("Error: ", err));
   };
 
-  const completeTodo = async (id) => {
+  const completeTodo = async id => {
     const data = await fetch(API_BASE + "/todo/complete/" + id).then((res) =>
       res.json()
     );
@@ -45,10 +45,10 @@ function App() {
   const addTodo = async () => {
     const data = await fetch(API_BASE + "/todo/new", {
       method: "POST",
-      headers: { "content-Type": "application/json" },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        text: newTodo,
-      }),
+        text: newTodo
+      })
     }).then((res) => res.json());
 
     setTodos([...todos, data]);
@@ -69,7 +69,10 @@ function App() {
           >
             <div className="checkbox"></div>
             <div className="text">{todo.text}</div>
-            <div className="delete-todo" onClick={() => deleteTodo(todo._id)}>
+            <div className="delete-todo" onClick={(e) => {
+                e.stopPropagation();
+                deleteTodo(todo._id);
+              }}>
               X
             </div>
           </div>
