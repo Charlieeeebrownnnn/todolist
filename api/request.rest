@@ -1,0 +1,18 @@
+GET http://localhost:3001/todos
+
+###
+
+POST  http://localhost:3001/todo/new
+Content-Type: application/json
+
+{
+    "text":"GET the condon"
+}
+
+###
+
+DELETE http://localhost:3001/todo/delete/63fa343318beb99f776486ea
+
+###
+
+PUT http://localhost:3001/todo/complete/63aab919b448ddd2cce7a120
