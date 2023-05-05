@@ -1,8 +1,11 @@
+require("dotenv").config({ path: "./config.env" });
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const app = express();
 const connectDB = require("./db");
+const path = require("path");
+
 
 require('dotenv').config()
 
@@ -43,6 +46,20 @@ app.get('/todo/complete/:id',async(req,res)=>{
     todo.save();
     res.json(todo);
 })
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../client/build")));
+  //dirname ./backend/server.js -----回到shoppingcart
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname,"..","client", "build", "index.html"));
+  });
+} else {
+  app.get("/", (req, res) => {
+    res.send("API running");
+  });
+}
+
+
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
